@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گالری 356 تصویر - قابل پیمایش</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffd700;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4ecca3;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #aaaaaa;
+        }
+        
+        .gallery-container {
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .gallery {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            gap: 20px;
+            padding: 10px 0 20px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            height: 70vh;
+        }
+        
+        .gallery::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .gallery-item {
+            scroll-snap-align: start;
+            flex: 0 0 auto;
+            width: 80vw;
+            height: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: transform 0.3s ease;
+            background: #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .image-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            z-index: 2;
+        }
+        
+        .image-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+        
+        .image-title {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .image-desc {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #4ecca3, #2a9d8f);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .nav-btns {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .jump-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .jump-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0 15px;
+            border-radius: 50px;
+            width: 120px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .jump-input:focus {
+            outline: none;
+            border-color: #4ecca3;
+        }
+        
+        .indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background: #4ecca3;
+            transform: scale(1.3);
+        }
+        
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            padding: 15px;
+            color: #aaaaaa;
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 800px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #4ecca3, #2a9d8f);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #4ecca3;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+        
+        .image-error {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #2c3e50;
+            color: #e74c3c;
+            padding: 20px;
+            text-align: center;
+            z-index: 4;
+        }
+        
+        .image-error i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .gallery {
+                height: 60vh;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+            
+            .jump-controls {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            .gallery {
+                height: 50vh;
+            }
+            
+            .image-title {
+                font-size: 1.2rem;
+            }
+            
+            .gallery-item {
+                width: 85vw;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-images"></i> گالری 356 تصویر حرفه‌ای</h1>
+        <p class="subtitle">
+            گالری پیشرفته با قابلیت نمایش و پیمایش 356 تصویر مختلف. هر تصویر ۸۰٪ عرض صفحه در دستگاه‌های موبایل را پوشش می‌دهد. 
+            برای پیمایش از دکمه‌ها استفاده کنید یا با انگشت روی گالری بکشید.
+        </p>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value">356</div>
+                <div class="stat-label">تصویر</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">12</div>
+                <div class="stat-label">دسته‌بندی</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">24</div>
+                <div class="stat-label">هنرمند</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="gallery-container">
+        <div class="gallery" id="gallery">
+            <!-- تصاویر توسط جاوااسکریپت اضافه می‌شوند -->
+        </div>
+        
+        <div class="controls">
+            <div class="nav-btns">
+                <button class="btn" id="prevBtn">
+                    <i class="fas fa-arrow-right"></i> قبلی
+                </button>
+                <button class="btn" id="nextBtn">
+                    بعدی <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+            
+            <div class="jump-controls">
+                <input type="number" class="jump-input" id="jumpInput" min="1" max="356" value="1" placeholder="شماره تصویر">
+                <button class="btn" id="jumpBtn">
+                    <i class="fas fa-rocket"></i> برو به
+                </button>
+            </div>
+            
+            <button class="btn" id="autoBtn">
+                <i class="fas fa-play"></i> پخش خودکار
+            </button>
+        </div>
+        
+        <div class="indicators" id="indicators">
+            <!-- نشانگرها توسط جاوااسکریپت اضافه می‌شوند -->
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>طراحی شده با ❤️ | گالری تصاویر پیشرفته | ۱۴۰۳ | قابلیت پشتیبانی از 356 تصویر</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gallery = document.getElementById('gallery');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const jumpInput = document.getElementById('jumpInput');
+            const jumpBtn = document.getElementById('jumpBtn');
+            const autoBtn = document.getElementById('autoBtn');
+            const indicatorsContainer = document.getElementById('indicators');
+            const progressBar = document.getElementById('progressBar');
+            
+            // تعداد کل تصاویر
+            const totalImages = 356;
+            let currentIndex = 0;
+            let autoPlayInterval;
+            let isAutoPlaying = false;
+            
+            // دسته‌بندی‌های مختلف برای تصاویر
+            const categories = [
+                "طبیعت", "حیوانات", "شهرها", "هنر", 
+                "غذا", "ورزش", "تکنولوژی", "فضا",
+                "دریا", "کوهستان", "گلها", "ماشین‌ها"
+            ];
+            
+            // تولید تصادفی اطلاعات برای هر تصویر
+            function generateImageInfo(index) {
+                const category = categories[Math.floor(Math.random() * categories.length)];
+                const artists = ["علی احمدی", "مریم حسینی", "رضا محمدی", "فاطمه زارعی", "امیر عباسی", "نازنین کریمی"];
+                const artist = artists[Math.floor(Math.random() * artists.length)];
+                
+                return {
+                    title: `تصویر شماره ${index + 1}`,
+                    desc: `دسته‌بندی: ${category} | هنرمند: ${artist}`,
+                    category: category
+                };
+            }
+            
+            // ساختار هر تصویر با مدیریت خطا
+            function createImageElement(index) {
+                const info = generateImageInfo(index);
+                
+                // استفاده از تصاویر رندوم از سرویس Picsum
+                const imgUrl = `https://picsum.photos/seed/${index}/800/600`;
+                
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <div class="image-number">${index + 1} / ${totalImages}</div>
+                    <div class="loading-container">
+                        <div class="loading"></div>
+                    </div>
+                    <img src="${imgUrl}" alt="${info.title}" loading="lazy" 
+                         onload="this.parentNode.querySelector('.loading-container').style.display='none'"
+                         onerror="this.onerror=null; this.style.display='none'; this.parentNode.querySelector('.loading-container').style.display='none'; this.parentNode.querySelector('.image-error').style.display='flex';">
+                    <div class="image-error" style="display: none">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>خطا در بارگیری تصویر</p>
+                        <p>شماره تصویر: ${index + 1}</p>
+                    </div>
+                    <div class="image-info">
+                        <div class="image-title">${info.title}</div>
+                        <div class="image-desc">${info.desc}</div>
+                    </div>
+                `;
+                
+                return item;
+            }
+            
+            // تولید گالری
+            function generateGallery() {
+                gallery.innerHTML = '';
+                
+                for (let i = 0; i < totalImages; i++) {
+                    const imgElement = createImageElement(i);
+                    gallery.appendChild(imgElement);
+                }
+            }
+            
+            // ایجاد نشانگرها
+            function generateIndicators() {
+                indicatorsContainer.innerHTML = '';
+                
+                // ایجاد نشانگرها برای هر 20 تصویر
+                const indicatorsCount = Math.ceil(totalImages / 20);
+                
+                for (let i = 0; i < indicatorsCount; i++) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'indicator';
+                    if (i === 0) indicator.classList.add('active');
+                    
+                    indicator.dataset.index = i * 20;
+                    
+                    indicator.addEventListener('click', () => {
+                        scrollToIndex(i * 20);
+                    });
+                    
+                    indicatorsContainer.appendChild(indicator);
+                }
+            }
+            
+            // به روزرسانی نشانگر فعال
+            function updateActiveIndicator(index) {
+                const indicators = document.querySelectorAll('.indicator');
+                indicators.forEach(ind => {
+                    const startIndex = parseInt(ind.dataset.index);
+                    const endIndex = startIndex + 20;
+                    
+                    if (index >= startIndex && index < endIndex) {
+                        ind.classList.add('active');
+                    } else {
+                        ind.classList.remove('active');
+                    }
+                });
+            }
+            
+            // پیمایش به تصویر خاص
+            function scrollToIndex(index) {
+                if (index < 0) index = 0;
+                if (index >= totalImages) index = totalImages - 1;
+                
+                currentIndex = index;
+                const items = gallery.querySelectorAll('.gallery-item');
+                
+                if (items[index]) {
+                    gallery.scrollTo({
+                        left: items[index].offsetLeft - gallery.offsetLeft,
+                        behavior: 'smooth'
+                    });
+                    
+                    // به روزرسانی نوار پیشرفت
+                    const progress = ((index + 1) / totalImages) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // به روزرسانی نشانگرها
+                    updateActiveIndicator(index);
+                    
+                    // به روزرسانی فیلد پرش
+                    jumpInput.value = index + 1;
+                }
+            }
+            
+            // پخش خودکار
+            function toggleAutoPlay() {
+                if (isAutoPlaying) {
+                    clearInterval(autoPlayInterval);
+                    autoBtn.innerHTML = '<i class="fas fa-play"></i> پخش خودکار';
+                    autoBtn.style.background = 'linear-gradient(to right, #4ecca3, #2a9d8f)';
+                } else {
+                    autoPlayInterval = setInterval(() => {
+                        if (currentIndex < totalImages - 1) {
+                            scrollToIndex(currentIndex + 1);
+                        } else {
+                            scrollToIndex(0);
+                        }
+                    }, 2000);
+                    
+                    autoBtn.innerHTML = '<i class="fas fa-pause"></i> توقف';
+                    autoBtn.style.background = 'linear-gradient(to right, #f95959, #d32f2f)';
+                }
+                
+                isAutoPlaying = !isAutoPlaying;
+            }
+            
+            // رویدادهای کلیک
+            nextBtn.addEventListener('click', () => {
+                scrollToIndex(currentIndex + 1);
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                scrollToIndex(currentIndex - 1);
+            });
+            
+            jumpBtn.addEventListener('click', () => {
+                const num = parseInt(jumpInput.value);
+                if (!isNaN(num) && num >= 1 && num <= totalImages) {
+                    scrollToIndex(num - 1);
+                } else {
+                    alert(`لطفاً عددی بین 1 تا ${totalImages} وارد کنید`);
+                }
+            });
+            
+            autoBtn.addEventListener('click', toggleAutoPlay);
+            
+            // رویداد اسکرول گالری
+            gallery.addEventListener('scroll', () => {
+                const scrollPosition = gallery.scrollLeft;
+                const items = gallery.querySelectorAll('.gallery-item');
+                
+                // پیدا کردن تصویر فعلی
+                let activeIndex = 0;
+                let minDistance = Infinity;
+                
+                items.forEach((item, index) => {
+                    const itemLeft = item.offsetLeft - gallery.offsetLeft;
+                    const distance = Math.abs(itemLeft - scrollPosition);
+                    
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        activeIndex = index;
+                    }
+                });
+                
+                if (activeIndex !== currentIndex) {
+                    currentIndex = activeIndex;
+                    
+                    // به روزرسانی نوار پیشرفت
+                    const progress = ((currentIndex + 1) / totalImages) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // به روزرسانی نشانگرها
+                    updateActiveIndicator(currentIndex);
+                    
+                    // به روزرسانی فیلد پرش
+                    jumpInput.value = currentIndex + 1;
+                }
+            });
+            
+            // راه‌اندازی اولیه
+            generateGallery();
+            generateIndicators();
+            scrollToIndex(0);
+        });
+    </script>
+</body>
+</html>
